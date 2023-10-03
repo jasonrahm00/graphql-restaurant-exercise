@@ -92,18 +92,33 @@ type Mutation{
 // The root provides a resolver function for each API endpoint
 
 var root = {
-  restaurant: (arg) => {
-    // Your code goes here
+  // Return restaurant based off of provided id
+  restaurant: ({ id }) => {
+    return restaurants.find((restaurant) => restaurant.id == id)
   },
+  // Return all restaurants
   restaurants: () => {
-    // Your code goes here
+    return restaurants
   },
+  // Creates new restaurant
   setrestaurant: ({ input }) => {
-    // Your code goes here
+    if (restaurants.find((restaurant) => restaurant.name == input.name)) {
+      return
+    } else {
+      let newRestaurant = {
+        name: input.name,
+        description: input.description,
+        id: restaurants.length + 1,
+      }
+      restaurants.push(newRestaurant)
+      return newRestaurant
+    }
   },
+  // Deletes restaurant with provided id
   deleterestaurant: ({ id }) => {
     // Your code goes here
   },
+  // Updates restaurant with provided id
   editrestaurant: ({ id, ...restaurant }) => {
     // Your code goes here
   },
