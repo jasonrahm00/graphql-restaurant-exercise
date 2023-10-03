@@ -108,7 +108,7 @@ var root = {
       let newRestaurant = {
         name: input.name,
         description: input.description,
-        id: restaurants.length + 1,
+        id: Math.floor(Math.random() * 1000),
       }
       restaurants.push(newRestaurant)
       return newRestaurant
@@ -116,7 +116,10 @@ var root = {
   },
   // Deletes restaurant with provided id
   deleterestaurant: ({ id }) => {
-    // Your code goes here
+    const ok = Boolean(restaurants.find((restaurant) => restaurant.id == id))
+    if (ok)
+      restaurants = restaurants.filter((restaurant) => restaurant.id !== id)
+    return { ok }
   },
   // Updates restaurant with provided id
   editrestaurant: ({ id, ...restaurant }) => {
