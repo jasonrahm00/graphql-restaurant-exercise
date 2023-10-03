@@ -111,7 +111,7 @@ var root = {
       id: Math.floor(Math.random() * 1000),
     }
     restaurants.push(newRestaurant)
-    return input
+    return newRestaurant
   },
   // Deletes restaurant with provided id
   deleterestaurant: ({ id }) => {
