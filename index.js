@@ -103,27 +103,33 @@ var root = {
   // Creates new restaurant
   setrestaurant: ({ input }) => {
     if (restaurants.find((restaurant) => restaurant.name == input.name)) {
-      return
-    } else {
-      let newRestaurant = {
-        name: input.name,
-        description: input.description,
-        id: Math.floor(Math.random() * 1000),
-      }
-      restaurants.push(newRestaurant)
-      return newRestaurant
+      throw new Error('restaurant with that name already exists')
     }
+    let newRestaurant = {
+      name: input.name,
+      description: input.description,
+      id: Math.floor(Math.random() * 1000),
+    }
+    restaurants.push(newRestaurant)
+    return input
   },
   // Deletes restaurant with provided id
   deleterestaurant: ({ id }) => {
     const ok = Boolean(restaurants.find((restaurant) => restaurant.id == id))
-    if (ok)
-      restaurants = restaurants.filter((restaurant) => restaurant.id !== id)
+    if (!ok) {
+      throw new Error('restaurant with that ID does not exist')
+    }
+    restaurants = restaurants.filter((restaurant) => restaurant.id !== id)
     return { ok }
   },
   // Updates restaurant with provided id
   editrestaurant: ({ id, ...restaurant }) => {
-    // Your code goes here
+    let editIndex = restaurants.findIndex((restaurant) => restaurant.id == id)
+    if (editIndex < 0) {
+      throw new Error('restaurant with that ID does not exist')
+    }
+    restaurants[editIndex] = { ...restaurants[editIndex], ...restaurant }
+    return restaurants[editIndex]
   },
 }
 var app = express()
